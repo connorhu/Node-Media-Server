@@ -115,9 +115,12 @@ class NodeRelayServer {
   }
 
   onRelayDelete(id) {
-    let session = context.sessions.get(id)
-    session.end()
-    Logger.log('[Relay dynamic session] end', id);
+    let session = context.sessions.get(id);
+    
+    if (session) {
+      session.end();
+      Logger.log('[Relay dynamic session] end', id);
+    }
   }
 
   onPrePlay(id, streamPath, args) {
