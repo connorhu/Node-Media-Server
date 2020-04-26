@@ -36,6 +36,7 @@ class NodeRelayServer {
     }
     context.nodeEvent.on('relayPull', this.onRelayPull.bind(this));
     context.nodeEvent.on('relayPush', this.onRelayPush.bind(this));
+    context.nodeEvent.on('relayDelete', this.onRelayDelete.bind(this));
     context.nodeEvent.on('prePlay', this.onPrePlay.bind(this));
     context.nodeEvent.on('donePlay', this.onDonePlay.bind(this));
     context.nodeEvent.on('postPublish', this.onPostPublish.bind(this));
@@ -111,6 +112,12 @@ class NodeRelayServer {
     this.dynamicSessions.set(id, session);
     session.run();
     Logger.log('[Relay dynamic push] start', id, conf.inPath, ' to ', conf.ouPath);
+  }
+
+  onRelayDelete(id) {
+    let session = context.sessions.get(id)
+    session.end()
+    Logger.log('[Relay dynamic session] end', id);
   }
 
   onPrePlay(id, streamPath, args) {
